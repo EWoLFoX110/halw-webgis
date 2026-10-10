@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json.schemastore.org/prettierrc",
+  "useEditorconfig": true,
+  "printWidth": 120,
+  "semi": true,
+  "singleQuote": true,
+  "bracketSameLine": true,
+  "singleAttributePerLine": false,
+  "htmlWhitespaceSensitivity": "ignore"
+}
