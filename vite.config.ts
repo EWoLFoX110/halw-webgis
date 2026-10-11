@@ -15,4 +15,12 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  server: {
+    proxy: {
+      '/DataServer': {
+        target: 'http://localhost',
+        changeOrigin: true, // 允许跨域
+      },
+    },
+  },
 });

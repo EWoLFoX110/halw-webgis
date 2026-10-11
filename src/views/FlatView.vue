@@ -11,7 +11,7 @@ function createTiandituLayer(type: 'vec' | 'img' | 'ibo' | 'cia'): TileLayer<XYZ
   return new TileLayer({
     source: new XYZ({
       // 天地图 XYZ 瓦片服务地址模板
-      url: `http://t{0-7}.tianditu.gov.cn/DataServer?T=${type}_w&x={x}&y={y}&l={z}&tk=${token}`,
+      url: `/DataServer?T=${type}_w&x={x}&y={y}&l={z}&tk=def6e1f07023220db3571cde3d92bf5e`,
       maxZoom: 18,
     }),
   });
