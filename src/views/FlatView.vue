@@ -2,37 +2,38 @@
 import * as ol from 'ol';
 import TileLayer from 'ol/layer/Tile';
 import { XYZ } from 'ol/source';
+import DragRotateAndZoom from 'ol/interaction/DragRotateAndZoom';
+import { defaults as defaultInteractions } from 'ol/interaction/defaults';
 import { onMounted } from 'vue';
 import tdt from '@/apis/tianditu';
+import { transform as transformCoord } from 'ol/proj';
 
-const { token } = tdt;
+function initOlMapWithTianditu() {
+  const { token, dataUrl, projection } = tdt;
+  const layers = ['vec', 'ibo', 'cia'].map((type) => {
+    const url = dataUrl.replace('{layer}', type).replace('{token}', token);
+    const maxZoom = 18;
+    return new TileLayer({
+      source: new XYZ({ url, maxZoom }),
+    });
+  });
 
-function createTiandituLayer(type: 'vec' | 'img' | 'ibo' | 'cia'): TileLayer<XYZ> {
-  return new TileLayer({
-    source: new XYZ({
-      // 天地图 XYZ 瓦片服务地址模板
-      url: `/DataServer?T=${type}_w&x={x}&y={y}&l={z}&tk=def6e1f07023220db3571cde3d92bf5e`,
-      maxZoom: 18,
+  const map = new ol.Map({
+    layers,
+    target: 'map-container',
+    interactions: defaultInteractions().extend([new DragRotateAndZoom()]),
+    view: new ol.View({
+      center: transformCoord([103.84, 31.15], projection, 'EPSG:3857'),
+      zoom: 4.4,
     }),
   });
+
+  return map;
 }
 
 onMounted(() => {
-  const viewer = new ol.Map({
-    target: 'map-container',
-    layers: [
-      // 加载天地图矢量底图
-      createTiandituLayer('vec'),
-      createTiandituLayer('ibo'),
-      createTiandituLayer('cia'),
-    ],
-    view: new ol.View({
-      center: [0, 0],
-      zoom: 2,
-    }),
-  });
-
-  Object.assign(window, { viewer });
+  const mapObj = initOlMapWithTianditu();
+  Object.assign(window, { mapObj });
 });
 </script>
 

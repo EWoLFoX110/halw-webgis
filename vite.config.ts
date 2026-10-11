@@ -21,6 +21,10 @@ export default defineConfig({
         target: 'http://localhost',
         changeOrigin: true, // 允许跨域
       },
+      '/mapservice': {
+        target: 'http://localhost',
+        changeOrigin: true, // 允许跨域
+      },
     },
   },
 });
