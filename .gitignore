@@ -42,3 +42,6 @@ test-results/
 playwright-report/
 
 /package-lock.json
+
+# Token
+token.ts
